@@ -335,10 +335,10 @@ class ChartSpec(DotDict):
                     ycol: 'exp(log(datum.y) + (2 * (datum.event_index % 2) - 1) * ceil(datum.event_index / 2) * .8)'
                 })
             return ret
-        icons = _make_base(size=20)
+        icons = _make_base(size=25)
         if 'Coverage' in df.columns:
             layers['statewide_lockdown_icons'] = icons.transform_filter('datum.Coverage == "Statewide"')
-            layers['regional_lockdown_icons'] = _make_base(size=12).transform_filter('datum.Coverage != "Statewide"')
+            layers['regional_lockdown_icons'] = _make_base(size=20).transform_filter('datum.Coverage != "Statewide"')
         else:
             layers['lockdown_icons'] = icons
 
