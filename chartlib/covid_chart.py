@@ -59,6 +59,7 @@ class CovidChart(object):
         object.__setattr__(self, 'top_k_groups', top_k_groups)
         object.__setattr__(self, 'sample_every', sample_every)
         object.__setattr__(self, 'spec', ChartSpec())
+        object.__setattr__(self, 'sample_every', sample_every)
 
         if isinstance(df, str):
             df = pd.read_csv(df, parse_dates=[xcol], infer_datetime_format=True)
@@ -294,6 +295,12 @@ class CovidChart(object):
             on=[self.groupcol, self.X],
             how='left'
         )
+        
+        # ugh... we still need all the presampled values before here so that the left join works		
+        # so we do the sampling in this very weird spot		
+        if self.sample_every is not None:		
+            df = df.sort_values(by=[self.groupcol, self.X])		
+            df = df.iloc[::self.sample_every, :]
 
         # ugh... we still need all the presampled values before here so that the left join works
         # so we do the sampling in this very weird spot
