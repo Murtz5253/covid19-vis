@@ -90,12 +90,13 @@ def create_lockdown_type(x, emo_flag):
             s = s + " Gatherings Banned"
             not_the_first_flag = 1
             emo_s = (emo_s + "g") if (regional_flag == 1) else (emo_s + "G")
-    if x['Banning Gatherings of a Certain Size'] == x['Banning Gatherings of a Certain Size']:
-        if not_the_first_flag == 1:
-            s = s + ","
-        s = s + " Gatherings (>" + str(x['Banning Gatherings of a Certain Size']) + ") Banned"
-        emo_s = (emo_s + "g") if (regional_flag == 1) else (emo_s + "G")
         not_the_first_flag = 1
+#    if x['Banning Gatherings of a Certain Size'] == x['Banning Gatherings of a Certain Size']:
+#        if not_the_first_flag == 1:
+#            s = s + ","
+#        s = s + " Gatherings (>" + str(x['Banning Gatherings of a Certain Size']) + ") Banned"
+#        emo_s = (emo_s + "g") if (regional_flag == 1) else (emo_s + "G")
+#        not_the_first_flag = 1
     if 'Face Covering Requirements' in x:
         if x['Face Covering Requirements'] == x['Face Covering Requirements']:
             if not_the_first_flag == 1:
@@ -127,18 +128,23 @@ def create_lockdown_type(x, emo_flag):
         else: 
             emo_s = (emo_s + "q") if (regional_flag == 1) else (emo_s + "Q")
             closure_flag = not_the_first_flag = 1
-            s = (s + " Opening of Restaurants") if (closure_flag == 0) else (s + " Restaurants")
+            s = (s + " Opening of Restaurants") if (closure_flag == 0) else (s + " Restaurants Opened")
     if x['Non-essential Businesses Closure'] == x['Non-essential Businesses Closure']:
         if not_the_first_flag == 1:
             s = s + ","
-        if x['Non-essential Businesses Closure'] == "Non-essential businesses closed" or x['Non-essential Businesses Closure'] == "Some (cherry-picked) businesses closed; others allowed to operate possibly with extra requirements" or x['Non-essential Businesses Closure'] == "Some (cherry-picked) businesses closed":
+        if x['Non-essential Businesses Closure'] == "Non-essential businesses closed" or x['Non-essential Businesses Closure'] == "Some (cherry-picked) businesses closed":
             s = (s + " Closure of Non-essential Businesses") if (closure_flag == 0) else (
                     s + " Non-essential Businesses")
             emo_s = (emo_s + "n") if (regional_flag == 1) else (emo_s + "N")
             closure_flag = not_the_first_flag = 1
         elif x['Non-essential Businesses Closure'] == 'Non-essential businesses allowed to operate possibly with extra requirements':
             s = (s + " Opening of Non-essential Businesses") if (closure_flag == 0) else (
-                    s + " Non-essential Businesses")
+                    s + " Non-essential Businesses Opened")
+            emo_s = (emo_s + "o") if (regional_flag == 1) else (emo_s + "O")
+            closure_flag = not_the_first_flag = 1
+        elif x['Non-essential Businesses Closure'] == "Some (cherry-picked) businesses closed; others allowed to operate possibly with extra requirements" :
+            s = (s + " Opening of Some Non-essential Businesses") if (closure_flag == 0) else (
+                    s + " Some non-essential Businesses Opened")
             emo_s = (emo_s + "o") if (regional_flag == 1) else (emo_s + "O")
             closure_flag = not_the_first_flag = 1
     if emo_flag == 1:
@@ -228,6 +234,7 @@ def interpret_events (y, regional_flag, not_the_first_flag, s, emo_s, lockdown_t
 
 # lockdown new export: requires df
 def create_lockdown_type_world_new_export(df, x, emo_flag):
+    # emo_s records the current status so far (added to throughout the loop)
     s = r = emo_s = ""
     x = append_most_recent_events (df, x)
     regional_flag = closure_flag = not_the_first_flag = 0

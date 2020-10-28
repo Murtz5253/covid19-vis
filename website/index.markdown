@@ -18,6 +18,7 @@ Visualizing the Impact of SARS-CoV-2 Intervention Strategies
   <button class="button-left tablinks default-open" onclick="openTabs(event, '.tab-content-cases')">Cases</button>
   <button class="button-right tablinks" onclick="openTabs(event, '.tab-content-deaths')">Mortality</button>
 </span>
+    <img src="https://raw.githubusercontent.com/Murtz5253/covid19-vis/master/images/legend.png" />
 </div>
 
 <div class="tab-content tab-content-usa" id="usa-tab">

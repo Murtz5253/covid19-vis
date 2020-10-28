@@ -58,7 +58,7 @@ class ChartSpec(DotDict):
     DEFAULT_MIN_TREND_LINE_DAYS = 5
     DEFAULT_FONT = 'Khula'
     MAX_LEGEND_MARKS = 33
-    MAX_EMOJI_LEGEND_MARKS = 7
+    MAX_EMOJI_LEGEND_MARKS = 33
     EMPTY_SELECTION = ''
     COLOR_SCHEME = list(
         map(
@@ -791,9 +791,10 @@ class ChartSpec(DotDict):
 
             self._collect_tooltip_layers(df, layers, base, cursor)
 
-            if self.get('lockdown_extrapolation', False):
+            if self.get('lockdown_extrapolation', True):
                 trend_checkbox = alt.binding_checkbox(name='Show trend lines for selected ')
-                trend_select = alt.selection_single(bind=trend_checkbox, name='trends', init={'values': True})
+                trend_select = alt.selection_single(bind=trend_checkbox, name='trends', init={'values': False})
+                
                 layers['model_lines'] = self._make_lockdown_extrapolation_layer(base)
                 layers['model_tooltip'] = self._make_extrapolation_tooltip_layer(
                     layers['model_lines'], cursor, trend_select
